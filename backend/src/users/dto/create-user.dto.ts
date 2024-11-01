@@ -12,9 +12,10 @@ export class CreateUserDto {
   user_surname: string;
 
   @ApiProperty({
-    default: 1,
+    enum: ['adm', 'usr'],
+    default: 'usr',
   })
-  profile_id: number;
+  profile: string;
 
   @ApiProperty({
     default: true,
