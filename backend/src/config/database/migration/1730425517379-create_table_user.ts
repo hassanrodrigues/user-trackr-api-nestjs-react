@@ -13,12 +13,12 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: 'user_nome',
+            name: 'user_name',
             type: 'varchar',
             length: '100',
           },
           {
-            name: 'user_subnome',
+            name: 'user_surname',
             type: 'varchar',
             length: '100',
           },
@@ -28,7 +28,7 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
             length: '100',
           },
           {
-            name: 'user_senha',
+            name: 'user_password',
             type: 'varchar',
             length: '255',
           },
@@ -36,10 +36,12 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
             name: 'user_refresh_token',
             type: 'varchar',
             length: '150',
+            isNullable: true,
           },
           {
-            name: 'perfil_id',
+            name: 'profile_id',
             type: 'int',
+            isNullable: true,
           },
           {
             name: 'user_status',
@@ -58,14 +60,16 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
           {
             name: 'user_deleted',
             type: 'boolean',
+            isNullable: true,
+            default: false,
           },
         ],
         foreignKeys: [
           {
-            name: 'fk_user_perfil',
-            columnNames: ['perfil_id'],
+            name: 'fk_user_profile',
+            columnNames: ['profile_id'],
             referencedTableName: 'profiles',
-            referencedColumnNames: ['perfil_id'],
+            referencedColumnNames: ['profile_id'],
           },
         ],
       }),

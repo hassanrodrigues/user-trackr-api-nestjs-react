@@ -8,17 +8,17 @@ export class CreateTableProfile1730425465606 implements MigrationInterface {
         schema: 'public',
         columns: [
           {
-            name: 'perfil_id',
+            name: 'profile_id',
             type: 'serial',
             isPrimary: true,
           },
           {
-            name: 'perfil_nome',
+            name: 'profile_name',
             type: 'varchar',
             length: '100',
           },
           {
-            name: 'perfil_status',
+            name: 'profile_status',
             type: 'boolean',
           },
         ],
