@@ -49,6 +49,12 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
             type: 'boolean',
           },
           {
+            name: 'user_first_access',
+            type: 'boolean',
+            isNullable: true,
+            default: true,
+          },
+          {
             name: 'user_created_at',
             type: 'timestamp',
             default: 'now()',

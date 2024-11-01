@@ -51,13 +51,14 @@ export class UsersService {
       user_deleted: false,
       user_password: user_password,
       profile_id: 1,
+      user_first_access: true,
     });
     return this.userRepository.save(user);
   }
 
   async findAll(query: QueryUserDto) {
-    let { limit, page, sort } = query;
-    const { search, status } = query;
+    let { limit, page } = query;
+    const { search, status, sort } = query;
 
     limit = limit || 10;
     page = page || 1;
@@ -80,6 +81,10 @@ export class UsersService {
             });
         }),
       );
+    }
+
+    if (sort === 'ASC' || sort === 'DESC') {
+      queryUsers.orderBy('users.user_name', sort);
     }
 
     if (status !== undefined) {
@@ -193,8 +198,18 @@ export class UsersService {
   async getByEmail(email: string) {
     return this.userRepository
       .createQueryBuilder('users')
+      .leftJoinAndSelect('users.profile', 'profile')
       .where('users.user_email = :email', { email })
       .andWhere('users.user_deleted = :deleted', { deleted: false })
       .getOne();
+  }
+
+  async updateRefreshToken(id: number, refresh_token: string) {
+    return this.userRepository
+      .createQueryBuilder()
+      .update(UserEntity)
+      .set({ user_refresh_token: refresh_token })
+      .where('user_id = :id', { id })
+      .execute();
   }
 }

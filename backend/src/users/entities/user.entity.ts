@@ -45,6 +45,11 @@ export class UserEntity {
     transformer: new BitToBooleanTransformer(),
   })
   user_deleted: boolean;
+  @Column({
+    type: 'bit',
+    transformer: new BitToBooleanTransformer(),
+  })
+  user_first_access: boolean;
 
   @Column()
   profile_id: number;
