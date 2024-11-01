@@ -10,12 +10,15 @@ import { hash } from 'src/common/utils/hash';
 import { QueryUserDto } from './dto/query-user.dto';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { passForUser } from 'src/common/utils/date_pass';
+import { ProfileService } from 'src/profiles/profile.service';
+import { ProfileEntity } from 'src/profiles/entities/profile.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly profileService: ProfileService,
   ) {}
 
   fieldsValidate = FiedlsValidate.getInstance();
@@ -32,24 +35,29 @@ export class UsersService {
     this.fieldsValidate.getValidateUserEmail(createUserDto.user_email);
 
     const user_password = await hash(passForUser());
-    console.log('aaaa', user_password);
+
+    const profileId = await this.profileService.findProfileByIdentifier(
+      createUserDto?.profile,
+    );
 
     const user = this.userRepository.create({
-      ...createUserDto,
+      user_email: createUserDto.user_email,
+      user_name: createUserDto.user_name,
+      user_surname: createUserDto.user_surname,
+      profile: { profile_id: profileId },
       user_created_at: new Date(),
       user_updated_at: new Date(),
       user_status: true,
       user_deleted: false,
       user_password: user_password,
-
       profile_id: 1,
     });
     return this.userRepository.save(user);
   }
 
   async findAll(query: QueryUserDto) {
-    let { status, limit, page, sort } = query;
-    const { search } = query;
+    let { limit, page, sort } = query;
+    const { search, status } = query;
 
     limit = limit || 10;
     page = page || 1;
@@ -107,11 +115,35 @@ export class UsersService {
       throw new BadRequestException('User not found');
     }
 
+    if (updateUserDto.user_email) {
+      const emailExists = await this.getByEmail(updateUserDto.user_email);
+      if (emailExists && emailExists.user_id !== id) {
+        throw new BadRequestException('Email already exists');
+      }
+    }
+
     Object.keys(updateUserDto).forEach((key) => {
       if (updateUserDto[key] !== undefined) {
         user[key] = updateUserDto[key];
       }
     });
+
+    user.user_updated_at = new Date();
+
+    if (updateUserDto.profile) {
+      const profileId: number =
+        await this.profileService.findProfileByIdentifier(
+          updateUserDto.profile,
+        );
+
+      console.log('profileId', profileId);
+      if (!profileId) {
+        throw new BadRequestException('Profile not found');
+      }
+      user.profile_id = profileId;
+      user.profile = { profile_id: profileId } as ProfileEntity;
+    }
+    console.log('user', user);
 
     return await this.userRepository.save(user);
   }

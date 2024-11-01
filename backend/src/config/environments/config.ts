@@ -25,7 +25,7 @@ export default () => ({
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/config/database/migration/*{.ts,.js}'],
     synchronize: false,
-    logging: true,
+    logging: false,
     migrationsRun: true,
   },
 });
