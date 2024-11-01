@@ -1,0 +1,21 @@
+version: '1'
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: ./.docker/Dockerfile
+    ports:
+      - '3002:3002'
+    depends_on:
+      - database
+    volumes:
+      - .:/usr/app 
+
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '5432:5432'
