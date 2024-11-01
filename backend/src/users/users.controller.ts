@@ -7,12 +7,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { QueryUserDto } from './dto/query-user.dto';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -24,8 +26,8 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ summary: 'Get all users' })
-  async findAll() {
-    return this.usersService.findAll();
+  async findAll(@Query() query: QueryUserDto) {
+    return this.usersService.findAll(query);
   }
 
   @Get(':id')
@@ -49,6 +51,6 @@ export class UsersController {
   @Patch('change-status/:id')
   @ApiOperation({ summary: 'Change user status' })
   async changeStatus(@Param('id') id: string) {
-    console.log(id);
+    return this.usersService.changeStatus(+id);
   }
 }

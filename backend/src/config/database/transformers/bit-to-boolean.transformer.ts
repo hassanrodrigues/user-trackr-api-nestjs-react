@@ -6,7 +6,7 @@ export class BitToBooleanTransformer implements ValueTransformer {
   }
 
   public to(value?: boolean | null): null | number {
-    if (!value) {
+    if (value === null || value === undefined) {
       return null;
     } else {
       return value ? 1 : 0;

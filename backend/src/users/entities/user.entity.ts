@@ -1,5 +1,12 @@
 import { BitToBooleanTransformer } from 'src/config/database/transformers/bit-to-boolean.transformer';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ProfileEntity } from 'src/profiles/entities/profile.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'users', schema: 'public' })
 export class UserEntity {
@@ -38,4 +45,11 @@ export class UserEntity {
     transformer: new BitToBooleanTransformer(),
   })
   user_deleted: boolean;
+
+  @Column()
+  profile_id: number;
+
+  @ManyToOne(() => ProfileEntity)
+  @JoinColumn({ name: 'profile_id' })
+  profile!: ProfileEntity; // Deve ser a propriedade `profile` usada em `OneToMany`
 }
