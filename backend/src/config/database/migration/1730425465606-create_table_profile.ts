@@ -32,7 +32,7 @@ export class CreateTableProfile1730425465606 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      `INSERT INTO public.profiles (profile_name, profile_identifier, profile_status) VALUES ('Administrator', 'adm', true)`,
+      `INSERT INTO public.profiles (profile_name, profile_identifier, profile_status) VALUES ('Administrador', 'adm', true)`,
     );
     await queryRunner.query(
       `INSERT INTO public.profiles (profile_name, profile_identifier, profile_status) VALUES ('Usuario Comum', 'usr', true)`,
