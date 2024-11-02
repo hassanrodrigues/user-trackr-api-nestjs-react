@@ -3,15 +3,10 @@ version: '3.8'
 services:
   backend:
     build:
-      context: .
-      dockerfile: ./.docker/Dockerfile
+      context: ./backend
+      dockerfile: .docker/Dockerfile
     ports:
       - '3002:3002'
-    depends_on:
-      - database
-    volumes:
-      - .:/usr/app
-      - /usr/app/node_modules
     environment:
       - APP_PORT=3002
       - SWAGGER_API_URL=http://localhost:3002
@@ -27,6 +22,24 @@ services:
       - JWT_REFRESH_TOKEN_EXPIRES_IN=3600s
       - JWT_FIRST_ACCESS_SECRET=first_access_token_secret
       - JWT_FIRST_ACCESS_EXPIRES_IN=3600s
+    depends_on:
+      - database
+    volumes:
+      - ./backend:/usr/src/app  
+      - /usr/src/app/node_modules 
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: .docker/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - VITE_PORT=3000
+      - TZ=America/Manaus
+    volumes:
+      - ./frontend:/app 
+      - /app/node_modules 
 
   database:
     image: postgres:latest
@@ -36,3 +49,8 @@ services:
       POSTGRES_DB: postgres
     ports:
       - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

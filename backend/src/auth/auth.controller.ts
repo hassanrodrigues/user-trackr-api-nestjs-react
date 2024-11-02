@@ -1,9 +1,4 @@
-import {
-  ApiBearerAuth,
-  ApiHeader,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
 import { LoginDto } from './dto/login.dto';
