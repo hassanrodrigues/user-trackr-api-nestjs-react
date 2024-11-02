@@ -2,9 +2,9 @@ import { Dispatch, SetStateAction } from "react";
 import { ISelectedOptions } from "../../../types/users";
 
 export interface IUsersAllProps {
-  isOpen?: boolean;
-  setIsOpen?: Dispatch<SetStateAction<boolean>>;
-  setKeyId?: Dispatch<SetStateAction<ISelectedOptions | null>>;
-  keyId?: number | undefined;
-  title?: string;
+  readonly isOpen?: boolean;
+  readonly setIsOpen?: Dispatch<SetStateAction<boolean>>;
+  readonly setKeyId?: Dispatch<SetStateAction<ISelectedOptions | null>>;
+  readonly keyId?: number | undefined;
+  readonly title?: string;
 }

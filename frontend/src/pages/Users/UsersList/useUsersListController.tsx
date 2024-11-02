@@ -21,14 +21,13 @@ function useUsersController() {
     }
   };
 
-  const deleteUser = async (userId) => {
-    console.log(userId);
+  const deleteUser = async (userId: any) => {
     try {
       const response = await api.delete(`user/${userId}`);
       const successMessage = response.data.message || "Usuário deletado com sucesso!";
       toast.success(successMessage);
       refetch();
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Erro ao deletar usuário";
       toast.error(errorMessage);
     }

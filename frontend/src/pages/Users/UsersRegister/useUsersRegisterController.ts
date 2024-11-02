@@ -70,7 +70,6 @@ export default function useUserRegisterController(): IUserRegisterController {
   };
 
   const profileChange = (event: any) => {
-    console.log(event.target.value);
     const selectedId = event.target.value;
     userFormik.setFieldValue("profile", selectedId);
   };

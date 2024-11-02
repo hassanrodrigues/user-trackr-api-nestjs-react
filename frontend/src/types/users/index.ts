@@ -7,7 +7,6 @@ export interface IUserRegister {
   profile: string;
 }
 
-
 export interface ISelectedOptions {
   id: number;
   value: string;
@@ -22,6 +21,28 @@ export interface IUserRegisterController {
   emailChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   profileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isLoading: boolean;
+}
+
+export interface IUserEditController {
+  userEditFormik: FormikProps<IUserRegister>;
+  editUser: (e?: React.MouseEvent) => void;
+  nameEditChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  surnameEditChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  emailEditChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  profileEditChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isLoading: boolean;
+  openModalEdit: (e?: React.MouseEvent) => void;
+  closeModalEdit: (e?: React.MouseEvent) => void;
+  OutEdit: (e?: React.MouseEvent) => void;
+  openCancelEdit: boolean;
+}
+
+export interface IUserEdit {
+  user_id?: number;
+  user_name: string;
+  user_surname: string;
+  user_email: string;
+  profile: string;
 }
 
 export interface IUsersTableRow {

@@ -125,6 +125,7 @@ export default function ViewUsers({
               variant="outlined"
               width="100%"
               onClick={closeDrawerView}
+              color="info"
             />
           </ButtonClose>
         </Wrapper>
