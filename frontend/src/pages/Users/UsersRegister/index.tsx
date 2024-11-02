@@ -113,7 +113,7 @@ function UsersRegister() {
             label={"Perfil"}
             fullwidth
             options={TYPE_USERS}
-            value={userFormik.values.user_profile}
+            value={userFormik.values.profile}
             onChange={profileChange}
           />
         </Row>
