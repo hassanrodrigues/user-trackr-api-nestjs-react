@@ -86,8 +86,6 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
       `SELECT profile_id FROM public.profiles WHERE profile_identifier = 'adm'`,
     );
 
-    console.log(id_profile_admin);
-
     await queryRunner.query(
       `INSERT INTO public.users (user_name, user_surname, user_email, user_password, profile_id, user_status) VALUES ('Hassan', 'Rodrigues', 'hassanrodrigues14@gmail.com', '${await hash('123456')}','${id_profile_admin[0].profile_id}', true)`,
     );

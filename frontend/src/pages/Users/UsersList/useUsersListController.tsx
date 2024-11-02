@@ -21,7 +21,20 @@ function useUsersController() {
     }
   };
 
-  const { isFetching } = useQuery(
+  const deleteUser = async (userId) => {
+    console.log(userId);
+    try {
+      const response = await api.delete(`user/${userId}`);
+      const successMessage = response.data.message || "Usuário deletado com sucesso!";
+      toast.success(successMessage);
+      refetch();
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Erro ao deletar usuário";
+      toast.error(errorMessage);
+    }
+  };
+
+  const { refetch, isFetching } = useQuery(
     ["user", searchParamUsers, pageParamUsers, limitPerPageUsers],
     () => {
       return api.get(`user`, {
@@ -82,6 +95,7 @@ function useUsersController() {
   });
 
   return {
+    deleteUser,
     changeStatusUser,
     USERS_COLUMN,
     tableUsers,

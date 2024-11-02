@@ -15,10 +15,12 @@ import {
 import { organizeData } from './utils/organizedData';
 import EyeIcon from '../../assets/icons/EyeIcon';
 import PenIcon from '../../assets/icons/PenIcon';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface ITableList extends HTMLTableElement {
   adjustTableHeight?: boolean;
   isAdmin?: boolean;
+  onDelete?: (id: string) => void;
 }
 
 export const TableList = forwardRef<ITableList, any>(
@@ -32,6 +34,7 @@ export const TableList = forwardRef<ITableList, any>(
       onDetail,
       onEdit,
       onSwitch,
+      onDelete,
       totalItems,
       disablePagination,
       currentPage,
@@ -100,7 +103,7 @@ export const TableList = forwardRef<ITableList, any>(
                         {headers?.map((header: any) => (
                           <th key={header.key}>{header.value}</th>
                         ))}
-                        <th style={{ width: '14%' }}>Ações</th>
+                        <th style={{ width: '20%' }}>Ações</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -160,6 +163,18 @@ export const TableList = forwardRef<ITableList, any>(
                                       >
                                         <SvgIcon viewBox="0 0 24 24">
                                           <PenIcon />
+                                        </SvgIcon>
+                                      </button>
+                                    </div>
+                                  )}
+                                  {isAdmin && onDelete && (
+                                    <div>
+                                      <button
+                                        onClick={() => onDelete(row.$original)}
+                                        disabled={row.$original.status === false || row.$original.active === false}
+                                      >
+                                        <SvgIcon viewBox="0 0 24 24">
+                                          <DeleteIcon />
                                         </SvgIcon>
                                       </button>
                                     </div>

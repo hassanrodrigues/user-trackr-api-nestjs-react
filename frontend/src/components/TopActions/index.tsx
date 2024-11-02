@@ -15,13 +15,13 @@ import { toast } from "react-toastify";
 import { getLocalStorage } from "../../utils/local-storage.utils";
 
 function TopActions() {
-  const [user, setUser] = useState<string>();
+  const [user, setUser] = useState<any>();
   useEffect(() => {
     setUser(getLocalStorage("user"));
   }, []);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [anchorNotf, setAnchorNotf] = useState<null | HTMLElement>(null);
+  const [_anchorNotf, setAnchorNotf] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
 

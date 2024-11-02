@@ -141,14 +141,12 @@ export class UsersService {
           updateUserDto.profile,
         );
 
-      console.log('profileId', profileId);
       if (!profileId) {
         throw new BadRequestException('Profile not found');
       }
       user.profile_id = profileId;
       user.profile = { profile_id: profileId } as ProfileEntity;
     }
-    console.log('user', user);
 
     return await this.userRepository.save(user);
   }
@@ -167,7 +165,6 @@ export class UsersService {
   }
 
   async changeStatus(id: number) {
-    console.log('id', id);
     const user = await this.getUserById(id);
 
     if (!user) {
@@ -176,8 +173,6 @@ export class UsersService {
 
     user.user_status = !user.user_status;
     user.user_updated_at = new Date();
-
-    console.log(user);
 
     await this.userRepository.save(user);
 

@@ -13,6 +13,7 @@ import { getLocalStorage } from '../../../utils/local-storage.utils';
 
 function UsersList() {
   const {
+    deleteUser,
     changeStatusUser,
     USERS_COLUMN,
     tableUsers,
@@ -33,7 +34,7 @@ function UsersList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const role = getLocalStorage<string>('user').profile;
+    const role = getLocalStorage<any>('user')?.profile;
     setUserRole(role);
   }, []);
 
@@ -96,6 +97,7 @@ function UsersList() {
 
       <div style={{ width: "100%" }}>
         <TableList
+          onDelete={(user: any) => deleteUser(user.id)}
           isAdmin={userRole === "Administrador"}
           headers={USERS_COLUMN}
           data={tableUsers}
