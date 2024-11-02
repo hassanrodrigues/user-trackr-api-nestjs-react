@@ -12,6 +12,7 @@ import { paginate } from 'nestjs-typeorm-paginate';
 import { passForUser } from 'src/common/utils/date_pass';
 import { ProfileService } from 'src/profiles/profile.service';
 import { ProfileEntity } from 'src/profiles/entities/profile.entity';
+import { ChangePasswordDto } from 'src/auth/dto/change-pass.dto';
 
 @Injectable()
 export class UsersService {
@@ -28,7 +29,7 @@ export class UsersService {
     });
 
     if (emailExists) {
-      throw new BadRequestException('Email already exists');
+      throw new BadRequestException('Email já cadastrado');
     }
 
     this.fieldsValidate.getValidateUserName(createUserDto.user_name);
@@ -107,7 +108,7 @@ export class UsersService {
     const user = await this.getUserById(id);
 
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('Usuário não encontrado');
     }
 
     return user;
@@ -117,13 +118,13 @@ export class UsersService {
     const user = await this.getUserById(id);
 
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('Usuário não encontrado');
     }
 
     if (updateUserDto.user_email) {
       const emailExists = await this.getByEmail(updateUserDto.user_email);
       if (emailExists && emailExists.user_id !== id) {
-        throw new BadRequestException('Email already exists');
+        throw new BadRequestException('Email já cadastrado');
       }
     }
 
@@ -142,7 +143,7 @@ export class UsersService {
         );
 
       if (!profileId) {
-        throw new BadRequestException('Profile not found');
+        throw new BadRequestException('Perfil não encontrado');
       }
       user.profile_id = profileId;
       user.profile = { profile_id: profileId } as ProfileEntity;
@@ -155,20 +156,24 @@ export class UsersService {
     const user = await this.getUserById(id);
 
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('Usuário não encontrado');
     }
 
     user.user_deleted = true;
     user.user_updated_at = new Date();
 
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+
+    return {
+      message: 'Usuário excluído com sucesso',
+    };
   }
 
   async changeStatus(id: number) {
     const user = await this.getUserById(id);
 
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('Usuário não encontrado');
     }
 
     user.user_status = !user.user_status;
@@ -177,7 +182,7 @@ export class UsersService {
     await this.userRepository.save(user);
 
     return {
-      message: 'Status changed successfully',
+      message: 'Status alterado com sucesso',
     };
   }
 
@@ -206,5 +211,38 @@ export class UsersService {
       .set({ user_refresh_token: refresh_token })
       .where('user_id = :id', { id })
       .execute();
+  }
+
+  async updatePassword(
+    id: number,
+    changePass: ChangePasswordDto,
+    email: string,
+  ) {
+    const user = await this.getByEmail(email);
+
+    if (!user || user.user_deleted) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+    if (user?.user_id !== id) {
+      throw new BadRequestException('Sem permissão para alterar a senha');
+    }
+
+    changePass.confirmPassword = this.fieldsValidate.getValidPassword(
+      changePass.confirmPassword,
+    );
+    changePass.password = this.fieldsValidate.getValidPassword(
+      changePass.password,
+    );
+
+    if (changePass.password != changePass.confirmPassword) {
+      throw new BadRequestException('As senhas não conferem');
+    }
+
+    user.user_password = this.fieldsValidate.getValidPassword(
+      changePass.password,
+    );
+    user.user_password = await hash(user.user_password);
+
+    return 'Senha alterada com sucesso';
   }
 }
