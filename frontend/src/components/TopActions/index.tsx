@@ -60,7 +60,7 @@ function TopActions() {
     localStorage.removeItem("user");
     localStorage.removeItem("unexpectedError");
     navigate("/");
-    toast.success("USER_LOGOUT", {
+    toast.success("Usuário deslogado", {
       style: { width: "350px", height: "23px" },
     });
   };

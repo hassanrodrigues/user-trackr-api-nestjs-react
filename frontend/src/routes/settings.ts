@@ -36,6 +36,9 @@ export const APP_ROUTES = {
     REGISTER: {
       path: "register",
     },
+    EDIT: {
+      path: "edit/:keyId",
+    },
     permissions: concatPermissions(
       [PermissionGroupEnum.USERS.name],
       allPermissionsAction

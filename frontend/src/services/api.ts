@@ -58,20 +58,16 @@ api.interceptors.response.use(
             ] = `Bearer ${user.access_token}`;
             return api(originalRequest);
           })
-          .catch((err: any) => {
-            console.log("err", err);
-          //  toast.info(t("session.toast.logout"));
+          .catch(() => {
             window.location.href = "/";
             localStorage.clear();
           });
       } else {
         localStorage.clear();
-        //toast.info(t("session.toast.logout"));
         window.location.href = "/";
       }
     } else {
       if (error.response?.status === 401) {
-       // toast.info(t("session.toast.logout"));
         window.location.href = "/";
         localStorage.clear();
       }

@@ -149,7 +149,10 @@ export class UsersService {
       user.profile = { profile_id: profileId } as ProfileEntity;
     }
 
-    return await this.userRepository.save(user);
+    return {
+      message: 'Usuário atualizado com sucesso',
+      user: await this.userRepository.save(user),
+    };
   }
 
   async remove(id: number) {
