@@ -64,7 +64,7 @@ export class AuthService {
     //     first_access_token: first_access_token,
     //     expires_in: this.configService.get('auth.token_expires_in'),
     //     sub: user.user_id,
-    //     username: user.user_username,
+    //     username: user.user_email,
     //     name: user.user_name,
     //   };
     // }
@@ -231,24 +231,25 @@ export class AuthService {
   }
 
   async firstAccess(sub: number, firstAccessDto: FirstAccessDto) {
-    const { current_password, new_password, confirmation_password } =
-      firstAccessDto;
+    const { new_password, confirmation_password } = firstAccessDto;
 
     const userSaved = await this.userService.getUserById(sub);
 
     if (!userSaved.user_first_access) {
-      throw new BadRequestException("You've already changed your password.");
+      throw new BadRequestException('Senha já foi alterada.');
     }
 
     if (!userSaved) {
-      throw new BadRequestException("User doesn't exist or has been deleted.");
+      throw new BadRequestException('Usuário não encontrado');
     }
 
-    // return this.userService.updatePassword(userSaved.user_id, {
-    //   username: userSaved.user_email,
-    //   currentPassword: current_password,
-    //   password: new_password,
-    //   confirmPassword: confirmation_password,
-    // });
+    return this.userService.updatePassword(
+      userSaved.user_id,
+      {
+        password: new_password,
+        confirmPassword: confirmation_password,
+      },
+      userSaved.user_email,
+    );
   }
 }
