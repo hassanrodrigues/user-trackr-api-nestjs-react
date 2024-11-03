@@ -103,11 +103,10 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
         : idProfileCommon[0].profile_id;
       const userStatus = Math.random() < 0.5;
       const email = faker.internet.email();
-      const password = await hash(faker.internet.password());
 
       await queryRunner.query(
         `INSERT INTO public.users (user_name, user_surname, user_email, user_password, profile_id, user_status) 
-         VALUES ('${faker.person.firstName()}', '${faker.person.lastName()}', '${email}', '${password}', ${profileId}, ${userStatus})`,
+         VALUES ('${faker.person.firstName()}', '${faker.person.lastName()}', '${email}', '${await hash('User@2024')}', ${profileId}, ${userStatus})`,
       );
     }
   }
