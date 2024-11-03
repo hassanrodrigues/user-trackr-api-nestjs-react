@@ -28,6 +28,10 @@ export class UsersService {
       where: { user_email: createUserDto.user_email },
     });
 
+    if (createUserDto.profile !== 'adm' && createUserDto.profile !== 'usr') {
+      throw new BadRequestException('Perfil inválido');
+    }
+
     if (emailExists) {
       throw new BadRequestException('Email já cadastrado');
     }

@@ -13,7 +13,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     enum: ['adm', 'usr'],
-    default: 'usr',
+    default: 'adm',
   })
   profile: string;
 
