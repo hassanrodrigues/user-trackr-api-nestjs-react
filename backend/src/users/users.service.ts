@@ -244,29 +244,32 @@ export class UsersService {
     if (!user || user.user_deleted) {
       throw new BadRequestException('Usuário não encontrado');
     }
-    if (user?.user_id !== id) {
-      throw new BadRequestException('Sem permissão para alterar a senha');
+
+    if (user.user_id !== id) {
+      throw new BadRequestException(
+        'Permissão insuficiente para alterar a senha',
+      );
     }
 
-    changePass.confirmation_password = this.fieldsValidate.getValidPassword(
+    this.validatePasswords(
+      changePass.new_password,
       changePass.confirmation_password,
     );
-    changePass.new_password = this.fieldsValidate.getValidPassword(
-      changePass.new_password,
-    );
 
-    if (changePass.new_password != changePass.confirmation_password) {
-      throw new BadRequestException('As senhas não conferem');
-    }
-
-    user.user_password = this.fieldsValidate.getValidPassword(
-      changePass.new_password,
-    );
-    user.user_password = await hash(user.user_password);
+    user.user_password = await hash(changePass.new_password);
 
     await this.userRepository.save(user);
 
     return 'Senha alterada com sucesso';
+  }
+
+  private validatePasswords(newPassword: string, confirmPassword: string) {
+    newPassword = this.fieldsValidate.getValidPassword(newPassword);
+    confirmPassword = this.fieldsValidate.getValidPassword(confirmPassword);
+
+    if (newPassword !== confirmPassword) {
+      throw new BadRequestException('As senhas não conferem');
+    }
   }
 
   async dashboard() {
