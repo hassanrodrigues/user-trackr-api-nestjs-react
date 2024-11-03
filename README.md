@@ -36,7 +36,7 @@ Este repositório contém um projeto com arquitetura de frontend e backend, util
 
 ## Descrição do Projeto
 
-Este projeto é uma aplicação web que conecta um frontend responsivo a um backend robusto. O backend gerencia a lógica de negócios e a interação com o banco de dados, enquanto o frontend oferece uma interface de usuário amigável. O uso do Docker permite que todos os desenvolvedores trabalhem em um ambiente consistente, evitando problemas de configuração.
+Este projeto é uma aplicação web que conecta um frontend a um backend. O backend gerencia a lógica de negócios e a interação com o banco de dados, enquanto o frontend oferece uma interface de usuário amigável. O uso do Docker permite que todos os desenvolvedores trabalhem em um ambiente consistente, evitando problemas de configuração.
 
 ## Pré-requisitos
 
