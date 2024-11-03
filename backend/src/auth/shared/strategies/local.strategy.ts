@@ -18,7 +18,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     const user = await this.authService.validateUser(username, password);
     if (!user) {
       throw new Unauthorized(
-        "Data doesn't match our records. Please check your email and password.",
+        'Os dados informados não conferem. Por favor, verifique e tente novamente.',
       );
     }
 

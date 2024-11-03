@@ -32,7 +32,7 @@ export class AuthService {
       );
     }
 
-    if (username.toLowerCase() === user.user_email && password) {
+    if (username.toLowerCase() === user.user_email.toLowerCase() && password) {
       const hashPassword = await isMatchHash(password, user.user_password);
 
       if (user && hashPassword) {

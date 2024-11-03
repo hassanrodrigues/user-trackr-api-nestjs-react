@@ -40,6 +40,9 @@ Para rodar o projeto completo (frontend e backend) usando Docker, siga estas ins
     ```bash
     email= hassanrodrigues14@gmail.com
     senha=123456
+    ou 
+    email=outrousarioExistente
+    senha=User@ano(User@2024)
 5. Para encerrar os contêineres, use:
    ```bash
    docker-compose down
