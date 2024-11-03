@@ -24,6 +24,7 @@ import InputBorder from "../../components/Input/InputWithBorder";
 import { IUserSignIn } from "../../models/user/IUser";
 import { useGlobalContext } from "../../contexts/AuthProvider/useGlobalContext";
 import KeyIcon from "../../assets/icons/Key";
+import indt from "../../assets/indt.png";
 
 export default function SignIn() {
   const initValuesSignIn: IUserSignIn = {
@@ -86,6 +87,7 @@ export default function SignIn() {
         <CardLogo>
           <Logo
             className="animate__animated animate__fadeInUp"
+            src={indt}
           />
         </CardLogo>
         <LoginSide
