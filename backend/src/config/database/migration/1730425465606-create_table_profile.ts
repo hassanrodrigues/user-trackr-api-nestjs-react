@@ -30,6 +30,7 @@ export class CreateTableProfile1730425465606 implements MigrationInterface {
         ],
       }),
     );
+    //meus seeds
 
     await queryRunner.query(
       `INSERT INTO public.profiles (profile_name, profile_identifier, profile_status) VALUES ('Administrador', 'adm', true)`,

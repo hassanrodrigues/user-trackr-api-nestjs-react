@@ -83,6 +83,8 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
       }),
     );
 
+    // meus seeds
+
     const idProfileAdmin = await queryRunner.query(
       `SELECT profile_id FROM public.profiles WHERE profile_identifier = 'adm'`,
     );
@@ -94,6 +96,10 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
     await queryRunner.query(
       `INSERT INTO public.users (user_name, user_surname, user_email, user_password, profile_id, user_status) 
        VALUES ('Hassan', 'Rodrigues', 'hassanrodrigues14@gmail.com', '${await hash('123456')}', ${idProfileAdmin[0].profile_id}, true)`,
+    );
+    await queryRunner.query(
+      `INSERT INTO public.users (user_name, user_surname, user_email, user_password, profile_id, user_status) 
+       VALUES ('User', 'Comum', 'usercomum@gmail.com', '${await hash('123456')}', ${idProfileCommon[0].profile_id}, true)`,
     );
 
     for (let i = 0; i < 20; i++) {

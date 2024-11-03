@@ -1,9 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ChangePasswordDto } from './change-pass.dto';
 
-export class FirstAccessDto {
-  @ApiProperty()
-  new_password: string;
-
-  @ApiProperty()
-  confirmation_password: string;
-}
+export class FirstAccessDto extends ChangePasswordDto {}

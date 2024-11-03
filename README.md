@@ -68,7 +68,12 @@ Para rodar o projeto completo (frontend e backend) usando Docker, siga estas ins
 
 4. Credenciais
     ```bash
+    usuário administrador
     email= hassanrodrigues14@gmail.com
+    senha=123456
+    ou 
+    usuario comum
+    email=usercomum@gmail.com
     senha=123456
     ou 
     email=outrousarioExistente
