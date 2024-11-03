@@ -56,5 +56,5 @@ export class UserEntity {
 
   @ManyToOne(() => ProfileEntity)
   @JoinColumn({ name: 'profile_id' })
-  profile!: ProfileEntity; // Deve ser a propriedade `profile` usada em `OneToMany`
+  profile!: ProfileEntity;
 }

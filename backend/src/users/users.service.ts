@@ -106,7 +106,6 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    console.log(await this.dashboard());
     const user = await this.getUserById(id);
 
     if (!user) {
@@ -118,7 +117,6 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto, userLogged: any) {
     const user = await this.getUserById(id);
-    console.log(userLogged.profile[0]);
 
     if (userLogged.profile[0] !== 'Administrador') {
       throw new BadRequestException('Sem permissão para alterar o usuário');
