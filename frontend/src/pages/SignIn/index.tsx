@@ -87,7 +87,6 @@ export default function SignIn() {
         <CardLogo>
           <Logo
             className="animate__animated animate__fadeInUp"
-            src={indt}
           />
         </CardLogo>
         <LoginSide

@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.1.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.0",
@@ -31,6 +32,7 @@
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "class-validator": "^0.14.1",
+    "faker": "^6.6.6",
     "nestjs-typeorm-paginate": "^4.0.4",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.1",

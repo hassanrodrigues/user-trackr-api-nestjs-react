@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { FirstAccessDto } from './dto/first-access.dto';
 import { BadRequestException } from 'src/common/exception-filters/bad-request.exception';
+import { ChangePasswordDto } from './dto/change-pass.dto';
 
 @Injectable()
 export class AuthService {
@@ -21,13 +22,13 @@ export class AuthService {
 
     if (!user || user.user_deleted) {
       throw new Unauthorized(
-        "Data doesn't match our records. Please check your email and password.",
+        'Dados de acesso inválidos. Verifique seu e-mail e senha e tente novamente.',
       );
     }
 
     if (!user.user_status) {
       throw new Unauthorized(
-        'Your account is disabled. Please contact the administrator.',
+        'Sua conta está desativada. Entre em contato com o administrador.',
       );
     }
 
@@ -50,14 +51,13 @@ export class AuthService {
 
     const profiles = this.getProfiles(user);
 
-    const { access_token, refresh_token, first_access_token } =
-      await this.getTokens(
-        user.user_id,
-        user.user_email,
-        user.user_name,
-        profiles,
-        has_private_permission,
-      );
+    const { access_token, refresh_token } = await this.getTokens(
+      user.user_id,
+      user.user_email,
+      user.user_name,
+      profiles,
+      has_private_permission,
+    );
 
     // if (user.user_first_access) {
     //   return {
@@ -246,8 +246,27 @@ export class AuthService {
     return this.userService.updatePassword(
       userSaved.user_id,
       {
-        password: new_password,
-        confirmPassword: confirmation_password,
+        new_password: new_password,
+        confirmation_password: confirmation_password,
+      },
+      userSaved.user_email,
+    );
+  }
+
+  async changePassword(sub: number, changePass: ChangePasswordDto) {
+    const { new_password, confirmation_password } = changePass;
+
+    const userSaved = await this.userService.getUserById(sub);
+
+    if (!userSaved) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+
+    return this.userService.updatePassword(
+      userSaved.user_id,
+      {
+        new_password: new_password,
+        confirmation_password: confirmation_password,
       },
       userSaved.user_email,
     );

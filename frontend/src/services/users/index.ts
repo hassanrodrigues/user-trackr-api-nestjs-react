@@ -9,6 +9,10 @@ export async function getUserEditId(id: string): Promise<AxiosResponse> {
   return await api.get(`/user/${id}`);
 }
 
+export async function dashboardUser(): Promise<AxiosResponse> {
+  return await api.get("/user/dashboard");
+}
+
 export default {
   userRegister: async (data: any) => {
     return await api.post("/user", data);

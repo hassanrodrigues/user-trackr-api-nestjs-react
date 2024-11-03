@@ -17,10 +17,10 @@ export class CreateUserDto {
   })
   profile: string;
 
-  @ApiProperty({
-    default: true,
-  })
-  user_password: string;
+  // @ApiProperty({
+  //   default: true,
+  // })
+  // user_password: string;
 
   @ApiProperty({
     default: 'hassanrodriguesteste@gmail.com',

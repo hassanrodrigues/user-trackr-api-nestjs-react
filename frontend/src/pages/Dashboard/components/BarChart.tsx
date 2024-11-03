@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const BarChart = ({ data }) => {
+const BarChart = ({ data }: any) => {
     const svgRef = useRef();
 
     useEffect(() => {

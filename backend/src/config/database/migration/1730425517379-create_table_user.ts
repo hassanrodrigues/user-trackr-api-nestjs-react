@@ -1,5 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import { hash } from 'src/common/utils/hash';
+import { faker } from '@faker-js/faker';
 
 export class CreateTableUser1730425517379 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -82,13 +83,33 @@ export class CreateTableUser1730425517379 implements MigrationInterface {
       }),
     );
 
-    const id_profile_admin = await queryRunner.query(
+    const idProfileAdmin = await queryRunner.query(
       `SELECT profile_id FROM public.profiles WHERE profile_identifier = 'adm'`,
     );
 
-    await queryRunner.query(
-      `INSERT INTO public.users (user_name, user_surname, user_email, user_password, profile_id, user_status) VALUES ('Hassan', 'Rodrigues', 'hassanrodrigues14@gmail.com', '${await hash('123456')}','${id_profile_admin[0].profile_id}', true)`,
+    const idProfileCommon = await queryRunner.query(
+      `SELECT profile_id FROM public.profiles WHERE profile_identifier = 'usr'`,
     );
+
+    await queryRunner.query(
+      `INSERT INTO public.users (user_name, user_surname, user_email, user_password, profile_id, user_status) 
+       VALUES ('Hassan', 'Rodrigues', 'hassanrodrigues14@gmail.com', '${await hash('123456')}', ${idProfileAdmin[0].profile_id}, true)`,
+    );
+
+    for (let i = 0; i < 20; i++) {
+      const isAdmin = Math.random() < 0.5;
+      const profileId = isAdmin
+        ? idProfileAdmin[0].profile_id
+        : idProfileCommon[0].profile_id;
+      const userStatus = Math.random() < 0.5;
+      const email = faker.internet.email();
+      const password = await hash(faker.internet.password());
+
+      await queryRunner.query(
+        `INSERT INTO public.users (user_name, user_surname, user_email, user_password, profile_id, user_status) 
+         VALUES ('${faker.person.firstName()}', '${faker.person.lastName()}', '${email}', '${password}', ${profileId}, ${userStatus})`,
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

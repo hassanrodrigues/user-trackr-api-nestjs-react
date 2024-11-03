@@ -9,6 +9,7 @@ import {
   Delete,
   Query,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -37,6 +38,14 @@ export class UsersController {
     return this.usersService.findAll(query);
   }
 
+  @Get('/dashboard')
+  @ApiOperation({ summary: 'Get dashboard' })
+  @ApiBearerAuth()
+  @UseGuards(PermissionGuard(UserPermissions.FIND_ALL))
+  async dashboard() {
+    return this.usersService.dashboard();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get user by id' })
   @ApiBearerAuth()
@@ -49,8 +58,13 @@ export class UsersController {
   @ApiOperation({ summary: 'Update user by id' })
   @ApiBearerAuth()
   @UseGuards(PermissionGuard(UserPermissions.FIND_ALL))
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Request() req,
+  ) {
+    console.log(req.user);
+    return this.usersService.update(+id, updateUserDto, req.user);
   }
 
   @Delete(':id')

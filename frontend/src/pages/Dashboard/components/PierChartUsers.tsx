@@ -42,7 +42,7 @@ const PieChart = ({ data }) => {
             .attr("fill", d => color(d.data.name))
             .attr("d", arc)
             .append("title")
-            .text(d => `${d.data.name}: ${d.data.value.toLocaleString("en-US")}`);
+            .text(d => `${d.data.name}: ${d.data.value}`);
 
         svg.append("g")
             .attr("text-anchor", "middle")
@@ -59,7 +59,7 @@ const PieChart = ({ data }) => {
                 .attr("x", 0)
                 .attr("y", "0.7em")
                 .attr("fill-opacity", 0.7)
-                .text(d => d.data.value.toLocaleString("pt-BR")));
+                .text(d => d.data.value));
     }, [data]);
 
     return <svg ref={svgRef}></svg>;
