@@ -40,7 +40,7 @@ function useUsersController() {
         params: {
           page: pageParamUsers,
           limit: limitPerPageUsers,
-          sort: "DESC",
+          sort: "ASC",
           search: searchParamUsers,
         },
       });
