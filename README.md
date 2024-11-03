@@ -13,7 +13,7 @@
   - [Banco de Dados (PostgreSQL)](#banco-de-dados-postgresql)
   - [Front Prints](#front-prints)
       - [Tela Login](#tela-login)
-      - [Tela usuario](#tela-usuario)
+      - [Tela usuário](#tela-usuário)
       - [Tela Dashboard](#tela-dashboard)
       - [Outras Imagens](#outras-imagens)
 - [Erros Comuns ao Executar `docker-compose up -d`](#erros-comuns-ao-executar-docker-compose-up--d)
@@ -116,7 +116,7 @@ Este projeto utiliza PostgreSQL como banco de dados. Ao rodar o backend, será f
 ## Front Prints
 #### Tela Login
 ![login](./imgs/login.png)
-#### Tela usuario
+#### Tela usuário
 ![users](./imgs/users.png)
 #### Tela Dashboard
 ![dashboard](./imgs/dashboard.png)

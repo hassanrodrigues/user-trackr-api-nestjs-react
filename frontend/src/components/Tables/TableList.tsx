@@ -235,7 +235,7 @@ export const TableList = forwardRef<ITableList, any>(
                       <p>
                         {instruction
                           ? 'Não foi possível achar nenhum resultado para sua busca. Tente refazer a pesquisa para encontrar o que busca.'
-                          : `Clique em “${messageModule}” para começar a cadastrar.`}
+                          : `Clique em “Cadastrar Usuário” para começar a cadastrar.`}
                       </p>
                     )}
                   </Empty>

@@ -21,10 +21,10 @@ const App = () => {
         ];
 
         const barData = [
-          { label: "Usuario Inativos Administrador", count: dataOnSuccess.barChartData.usersInactiveAdmin },
-          { label: "Usuarios Ativos Administrador", count: dataOnSuccess.barChartData.usersActiveAdmin },
-          { label: "Usuarios Ativos Comum", count: dataOnSuccess.barChartData.usersActiveCommon },
-          { label: "Usuarios Inativos Comum", count: dataOnSuccess.barChartData.usersInactiveCommon },
+          { label: "Usuários Inativos Administrador", count: dataOnSuccess.barChartData.usersInactiveAdmin },
+          { label: "Usuários Ativos Administrador", count: dataOnSuccess.barChartData.usersActiveAdmin },
+          { label: "Usuários Ativos Comum", count: dataOnSuccess.barChartData.usersActiveCommon },
+          { label: "Usuários Inativos Comum", count: dataOnSuccess.barChartData.usersInactiveCommon },
         ];
 
         setDataDash({ pieData, barData });
@@ -36,11 +36,11 @@ const App = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-around', padding: '20px' }}>
       <div>
-        <h1>Usuarios Ativos e Inativos</h1>
+        <h1>Usuários Ativos e Inativos</h1>
         <PieChart data={dataDash?.pieData || []} />
       </div>
       <div>
-        <h1>Usuarios Ativos e Inativos por perfil</h1>
+        <h1>Usuários Ativos e Inativos por perfil</h1>
         <BarChart data={dataDash?.barData || []} />
       </div>
     </div>
