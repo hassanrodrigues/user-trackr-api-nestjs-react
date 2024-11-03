@@ -9,14 +9,14 @@ export class FiedlsValidate {
     return FiedlsValidate.instance;
   }
 
-  private onlyString = /^[a-zA-Z ]+$/;
-  private noWhitSpaceConsecutive = /\s +/;
-  private email =
+  private readonly onlyString = /^[a-zA-Z ]+$/;
+  private readonly noWhitSpaceConsecutive = /\s +/;
+  private readonly email =
     /^[a-zA-Z0-9._%+-]{1,30}@[a-zA-Z0-9.-]{2,10}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2,10})?$/;
-  private passwordUpperCase = /^(?=.*[A-Z]).*$/;
-  private passwordLowerCase = /^(?=.*[a-z]).*$/;
-  private passwordNumber = /^(?=.*\d).*$/;
-  private passwordSpecialCharacter = /^(?=.*[.+\-[\]*~_@#:?]).*$/;
+  private readonly passwordUpperCase = /^(?=.*[A-Z]).*$/;
+  private readonly passwordLowerCase = /^(?=.*[a-z]).*$/;
+  private readonly passwordNumber = /^(?=.*\d).*$/;
+  private readonly passwordSpecialCharacter = /^(?=.*[.+\-[\]*~_@#:?]).*$/;
 
   private validate(regex: RegExp, value: string): boolean {
     return regex.test(value);

@@ -15,6 +15,7 @@ CREATE TABLE postgres.users (
     user_password VARCHAR(255),
     user_refresh_token VARCHAR(150),
     user_status BOOLEAN,
+    user_first_access BOOLEAN,
     user_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_deleted BOOLEAN DEFAULT FALSE,
