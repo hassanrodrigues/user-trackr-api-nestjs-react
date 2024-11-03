@@ -1,28 +1,48 @@
 import PieChart from './components/PierChartUsers';
 import BarChart from './components/BarChart';
+import { useState } from 'react';
+import { dashboardUser } from "../../services/users";
+import { useQuery } from 'react-query';
 
 const App = () => {
-  const pieChartData = [
-    { name: "Inativos", value: 11 },
-    { name: "Ativos", value: 23 },
-  ];
+  const [dataDash, setDataDash] = useState(null);
 
-  const barChartData = [
-    { label: "Usuario Inativos Adm", count: 112 },
-    { label: "Usuarios Ativos Admin", count: 12 },
-    { label: "Usuarios Ativos Comum", count: 12 },
-    { label: "Usuarios inativos Comum", count: 44 },
-  ];
+  useQuery(
+    'dashboardUser',
+    dashboardUser,
+    {
+      onSuccess: (response) => {
+        const dataOnSuccess = response?.data;
+        console.log("dataOnSuccess,", dataOnSuccess);
+
+        const pieData = [
+          { name: "Inativos", value: dataOnSuccess.pieChartData.usersInactive },
+          { name: "Ativos", value: dataOnSuccess.pieChartData.usersActive },
+          { name: "Deletados", value: dataOnSuccess.pieChartData.userDeleted },
+        ];
+
+        const barData = [
+          { label: "Usuario Inativos Administrador", count: dataOnSuccess.barChartData.usersInactiveAdmin },
+          { label: "Usuarios Ativos Administrador", count: dataOnSuccess.barChartData.usersActiveAdmin },
+          { label: "Usuarios Ativos Comum", count: dataOnSuccess.barChartData.usersActiveCommon },
+          { label: "Usuarios inativos Comum", count: dataOnSuccess.barChartData.usersInactiveCommon },
+        ];
+
+        setDataDash({ pieData, barData });
+      },
+    }
+  );
+
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-around', padding: '20px' }}>
       <div>
         <h1>Usuarios Ativos e Inativos</h1>
-        <PieChart data={pieChartData} />
+        <PieChart data={dataDash?.pieData || []} />
       </div>
       <div>
         <h1>Usuarios Ativos e Inativos por perfil</h1>
-        <BarChart data={barChartData} />
+        <BarChart data={dataDash?.barData || []} />
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ export default function ViewUsers({
     },
     {
       onSuccess: (dataOnSuccess) => {
-        const dataPests = {
+        const data = {
           user_name: dataOnSuccess?.data?.user_name ?? "-",
           user_surname: dataOnSuccess?.data?.user_surname ?? "-",
           user_profile: dataOnSuccess?.data?.profile.profile_name ?? "-",
@@ -47,7 +47,7 @@ export default function ViewUsers({
             ? dayjs(dataOnSuccess?.data.user_updated_at).format("DD/MM/YYYY")
             : "-",
         };
-        setUsers(dataPests);
+        setUsers(data);
       },
       enabled: !!keyId,
     }

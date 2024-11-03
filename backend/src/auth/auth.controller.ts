@@ -9,6 +9,7 @@ import { JwtAuthGuard } from './shared/guards/jwt-auth.guard';
 import { JwtRefreshAuthGuard } from './shared/guards/jwt-refresh-auth.guard';
 import { JwtFirstAccessAuthGuard } from './shared/guards/jwt-first-access.guard';
 import { FirstAccessDto } from './dto/first-access.dto';
+import { ChangePasswordDto } from './dto/change-pass.dto';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -56,5 +57,16 @@ export class AuthController {
     @Body() firstAccessDto: FirstAccessDto,
   ) {
     return this.authService.firstAccess(payload?.user?.sub, firstAccessDto);
+  }
+
+  @Post('/change_password')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async changePassword(
+    @Request() req: any,
+    @Body() changePass: ChangePasswordDto,
+  ) {
+    console.log(req?.user);
+    return this.authService.changePassword(req?.user?.sub, changePass);
   }
 }

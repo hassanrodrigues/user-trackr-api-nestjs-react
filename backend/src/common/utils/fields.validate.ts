@@ -88,4 +88,22 @@ export class FiedlsValidate {
 
     return password;
   }
+
+  getValidUserSurname(surname: string) {
+    if (!this.onlyString.test(surname)) {
+      throw new BadRequestException('Sobrenome inválido');
+    }
+
+    if (surname.length < 2 || surname.length > 50) {
+      throw new BadRequestException(
+        'O sobrenome deve ter entre 2 e 50 caracteres',
+      );
+    }
+
+    if (this.noWhitSpaceConsecutive.test(surname)) {
+      throw new BadRequestException(
+        'O sobrenome não pode ter espaços em branco consecutivos',
+      );
+    }
+  }
 }

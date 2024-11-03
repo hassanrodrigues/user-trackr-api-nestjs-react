@@ -74,7 +74,17 @@ Para rodar o projeto completo (frontend e backend) usando Docker, siga estas ins
       ```bash
       npm run dev
 
-#### O frontend estará disponível em http://localhost:3000.
+## Front Prints
+#### Tela Login
+![login](./imgs/login.png)
+#### Tela usuario
+![users](./imgs/users.png)
+#### Tela Dashboard
+![dashboard](./imgs/dashboard.png)
+#### Outras Imagens
+![perfil](./imgs/perfil.png)
+
+
 ## Banco de Dados (PostgreSQL)
 Este projeto utiliza PostgreSQL como banco de dados. Ao rodar o backend, será feito as migrations e seed de um usuário padrão, com as credenciais citadas acima.
    

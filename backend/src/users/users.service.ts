@@ -34,6 +34,7 @@ export class UsersService {
 
     this.fieldsValidate.getValidateUserName(createUserDto.user_name);
     this.fieldsValidate.getValidateUserEmail(createUserDto.user_email);
+    this.fieldsValidate.getValidUserSurname(createUserDto.user_surname);
 
     const user_password = await hash(passForUser());
 
@@ -105,6 +106,7 @@ export class UsersService {
   }
 
   async findOne(id: number) {
+    console.log(await this.dashboard());
     const user = await this.getUserById(id);
 
     if (!user) {
@@ -114,8 +116,20 @@ export class UsersService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto, userLogged: any) {
     const user = await this.getUserById(id);
+    console.log(userLogged.profile[0]);
+
+    if (userLogged.profile[0] !== 'Administrador') {
+      throw new BadRequestException('Sem permissão para alterar o usuário');
+    }
+
+    if (
+      userLogged.user_id !== id &&
+      userLogged.profile[0] !== 'Administrador'
+    ) {
+      throw new BadRequestException('Sem permissão para alterar o usuário');
+    }
 
     if (!user) {
       throw new BadRequestException('Usuário não encontrado');
@@ -127,6 +141,10 @@ export class UsersService {
         throw new BadRequestException('Email já cadastrado');
       }
     }
+
+    this.fieldsValidate.getValidateUserName(updateUserDto.user_name);
+    this.fieldsValidate.getValidateUserEmail(updateUserDto.user_email);
+    this.fieldsValidate.getValidUserSurname(updateUserDto.user_surname);
 
     Object.keys(updateUserDto).forEach((key) => {
       if (updateUserDto[key] !== undefined) {
@@ -230,22 +248,89 @@ export class UsersService {
       throw new BadRequestException('Sem permissão para alterar a senha');
     }
 
-    changePass.confirmPassword = this.fieldsValidate.getValidPassword(
-      changePass.confirmPassword,
+    changePass.confirmation_password = this.fieldsValidate.getValidPassword(
+      changePass.confirmation_password,
     );
-    changePass.password = this.fieldsValidate.getValidPassword(
-      changePass.password,
+    changePass.new_password = this.fieldsValidate.getValidPassword(
+      changePass.new_password,
     );
 
-    if (changePass.password != changePass.confirmPassword) {
+    if (changePass.new_password != changePass.confirmation_password) {
       throw new BadRequestException('As senhas não conferem');
     }
 
     user.user_password = this.fieldsValidate.getValidPassword(
-      changePass.password,
+      changePass.new_password,
     );
     user.user_password = await hash(user.user_password);
 
+    await this.userRepository.save(user);
+
     return 'Senha alterada com sucesso';
+  }
+
+  async dashboard() {
+    const usersActive = await this.userRepository
+      .createQueryBuilder('users')
+      .where('users.user_deleted = :deleted', { deleted: false })
+      .andWhere('users.user_status = :status', { status: true })
+      .getCount();
+
+    const userDeleted = await this.userRepository
+      .createQueryBuilder('users')
+      .where('users.user_deleted = :deleted', { deleted: true })
+      .getCount();
+
+    const usersInactive = await this.userRepository
+      .createQueryBuilder('users')
+      .where('users.user_deleted = :deleted', { deleted: false })
+      .andWhere('users.user_status = :status', { status: false })
+      .getCount();
+
+    const pieChartData = { usersInactive, usersActive, userDeleted };
+
+    const usersActiveAdmin = await this.userRepository
+      .createQueryBuilder('users')
+      .leftJoin('users.profile', 'profile')
+      .where('users.user_deleted = :deleted', { deleted: false })
+      .andWhere('users.user_status = :status', { status: true })
+      .andWhere('profile.profile_name = :name', { name: 'Administrador' })
+      .getCount();
+
+    const usersInactiveAdmin = await this.userRepository
+      .createQueryBuilder('users')
+      .leftJoin('users.profile', 'profile')
+      .where('users.user_deleted = :deleted', { deleted: false })
+      .andWhere('users.user_status = :status', { status: false })
+      .andWhere('profile.profile_name = :name', { name: 'Administrador' })
+      .getCount();
+
+    const usersActiveCommon = await this.userRepository
+      .createQueryBuilder('users')
+      .leftJoin('users.profile', 'profile')
+      .where('users.user_deleted = :deleted', { deleted: false })
+      .andWhere('users.user_status = :status', { status: true })
+      .andWhere('profile.profile_name = :name', { name: 'Usuario Comum' })
+      .getCount();
+
+    const usersInactiveCommon = await this.userRepository
+      .createQueryBuilder('users')
+      .leftJoin('users.profile', 'profile')
+      .where('users.user_deleted = :deleted', { deleted: false })
+      .andWhere('users.user_status = :status', { status: false })
+      .andWhere('profile.profile_name = :name', { name: 'Usuario Comum' })
+      .getCount();
+
+    const barChartData = {
+      usersInactiveAdmin,
+      usersActiveAdmin,
+      usersActiveCommon,
+      usersInactiveCommon,
+    };
+
+    return {
+      pieChartData,
+      barChartData,
+    };
   }
 }
