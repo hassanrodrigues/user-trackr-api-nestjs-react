@@ -13,7 +13,6 @@ const App = () => {
     {
       onSuccess: (response) => {
         const dataOnSuccess = response?.data;
-        console.log("dataOnSuccess,", dataOnSuccess);
 
         const pieData = [
           { name: "Inativos", value: dataOnSuccess.pieChartData.usersInactive },
@@ -25,7 +24,7 @@ const App = () => {
           { label: "Usuario Inativos Administrador", count: dataOnSuccess.barChartData.usersInactiveAdmin },
           { label: "Usuarios Ativos Administrador", count: dataOnSuccess.barChartData.usersActiveAdmin },
           { label: "Usuarios Ativos Comum", count: dataOnSuccess.barChartData.usersActiveCommon },
-          { label: "Usuarios inativos Comum", count: dataOnSuccess.barChartData.usersInactiveCommon },
+          { label: "Usuarios Inativos Comum", count: dataOnSuccess.barChartData.usersInactiveCommon },
         ];
 
         setDataDash({ pieData, barData });

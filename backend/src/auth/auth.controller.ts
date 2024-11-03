@@ -66,7 +66,6 @@ export class AuthController {
     @Request() req: any,
     @Body() changePass: ChangePasswordDto,
   ) {
-    console.log(req?.user);
     return this.authService.changePassword(req?.user?.sub, changePass);
   }
 }

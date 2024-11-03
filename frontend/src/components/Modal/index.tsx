@@ -70,7 +70,6 @@ function Modal({
         secondWidth={secondWidth}
       >
         {title || description || closeIcon ? (
-          // override property
           <>
             {closeIcon ? (
               <div
@@ -98,7 +97,7 @@ function Modal({
               </Box>
             </HeaderModal>
           </>
-        ) : // end override property
+        ) :
           null}
 
         <ContentModal padding={padding}>
